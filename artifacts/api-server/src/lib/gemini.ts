@@ -4,21 +4,30 @@ import { logger } from "./logger";
 const apiKey = process.env["GEMINI_API_KEY"];
 const genAI = apiKey ? new GoogleGenerativeAI(apiKey) : null;
 
-function getModel() {
-  if (!genAI) return null;
-  return genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-}
+// Try models in order — newer models are preferred; older names are kept as fallback
+const GEMINI_MODELS = [
+  "gemini-2.0-flash",
+  "gemini-2.0-flash-exp",
+  "gemini-1.5-flash-latest",
+  "gemini-1.5-flash-8b-latest",
+  "gemini-1.5-flash",
+];
 
 async function generateText(prompt: string): Promise<string | null> {
-  const model = getModel();
-  if (!model) return null;
-  try {
-    const result = await model.generateContent(prompt);
-    return result.response.text();
-  } catch (err) {
-    logger.error({ err }, "Gemini API error");
-    return null;
+  if (!genAI) return null;
+  for (const modelName of GEMINI_MODELS) {
+    try {
+      const model = genAI.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(prompt);
+      const text = result.response.text();
+      logger.info({ modelName }, "Gemini response received");
+      return text;
+    } catch (err) {
+      logger.warn({ err: (err as { message?: string }).message, modelName }, "Gemini model unavailable, trying next");
+    }
   }
+  logger.error("All Gemini models failed, using fallback");
+  return null;
 }
 
 // ─── Fallback helpers ───────────────────────────────────────────────────────

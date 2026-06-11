@@ -50,9 +50,9 @@ type ResumeFormData = {
 const EMPTY_FORM: ResumeFormData = {
   personalInfo: { fullName: "", email: "", phone: "", location: "", linkedin: "", github: "", portfolio: "", summary: "" },
   education: [{ degree: "", college: "", year: "", cgpa: "" }],
-  technicalSkills: [""],
-  softSkills: [""],
-  tools: [""],
+  technicalSkills: [],
+  softSkills: [],
+  tools: [],
   projects: [{ name: "", description: "", technologies: "", githubLink: "" }],
   experience: [],
   internships: [],
@@ -62,12 +62,14 @@ const EMPTY_FORM: ResumeFormData = {
   template: "ats-professional",
 };
 
+const filterEmpty = (arr?: string[]) => (arr ?? []).filter(s => s.trim() !== "");
+
 const TEMPLATES = [
-  { id: "ats-professional", label: "ATS Professional" },
-  { id: "modern-corporate", label: "Modern Corporate" },
-  { id: "executive", label: "Executive" },
-  { id: "minimal", label: "Minimal" },
-  { id: "creative", label: "Creative" },
+  { id: "ats-professional", label: "ATS Professional", desc: "Clean, ATS-optimized" },
+  { id: "modern-corporate", label: "Modern Corporate", desc: "Two-column, modern" },
+  { id: "executive", label: "Executive", desc: "Premium, traditional" },
+  { id: "minimal", label: "Minimal", desc: "Elegant, serif" },
+  { id: "creative", label: "Creative", desc: "Colorful, modern" },
 ];
 
 // ─── Step Config ─────────────────────────────────────────────────────────────
@@ -389,18 +391,18 @@ function BuilderContent() {
   const updateMutation = useUpdateResume();
   const enhanceMutation = useEnhanceResume();
 
-  // Load resume data into form
+  // Load resume data into form — filter empty strings from tag arrays
   useEffect(() => {
     if (!resume) return;
     setTitle(resume.title ?? "Untitled Resume");
     const d = (resume.data ?? {}) as Partial<ResumeFormData>;
     setForm({
       personalInfo: d.personalInfo ?? EMPTY_FORM.personalInfo,
-      education: d.education?.length ? d.education : EMPTY_FORM.education,
-      technicalSkills: d.technicalSkills?.length ? d.technicalSkills : EMPTY_FORM.technicalSkills,
-      softSkills: d.softSkills?.length ? d.softSkills : EMPTY_FORM.softSkills,
-      tools: d.tools?.length ? d.tools : EMPTY_FORM.tools,
-      projects: d.projects?.length ? d.projects : EMPTY_FORM.projects,
+      education: d.education?.filter(e => e.degree || e.college).length ? d.education! : EMPTY_FORM.education,
+      technicalSkills: filterEmpty(d.technicalSkills),
+      softSkills: filterEmpty(d.softSkills),
+      tools: filterEmpty(d.tools),
+      projects: d.projects?.filter(p => p.name).length ? d.projects! : EMPTY_FORM.projects,
       experience: d.experience ?? [],
       internships: d.internships ?? [],
       certifications: d.certifications ?? [],
@@ -414,8 +416,15 @@ function BuilderContent() {
     if (!resumeId) return;
     setSaving(true);
     const merged = { ...form, ...(data ?? {}) };
+    // Filter empty strings from tag arrays before saving
+    const clean: ResumeFormData = {
+      ...merged,
+      technicalSkills: filterEmpty(merged.technicalSkills),
+      softSkills: filterEmpty(merged.softSkills),
+      tools: filterEmpty(merged.tools),
+    };
     updateMutation.mutate(
-      { id: resumeId, data: { title, data: merged, template: merged.template } },
+      { id: resumeId, data: { title, data: clean, template: clean.template } },
       {
         onSuccess: () => {
           setSaved(true);
@@ -426,7 +435,7 @@ function BuilderContent() {
         onError: () => { toast.error("Failed to save"); setSaving(false); },
       }
     );
-  }, [form, title, resumeId, updateMutation, queryClient, user?.uid]);
+  }, [form, title, resumeId, updateMutation, queryClient, user?.uid]);  // eslint-disable-line
 
   const handleEnhance = () => {
     if (!form.targetRole.trim()) { toast.error("Set a target role in Step 9 first"); return; }
