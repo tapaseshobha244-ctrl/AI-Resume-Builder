@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface AtsScoreResult {
+  score: number;
+  missingKeywords: string[];
+  suggestions: string[];
+  strengths: string[];
 }

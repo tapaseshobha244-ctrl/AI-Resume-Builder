@@ -1,22 +1,29 @@
 openapi: 3.1.0
 info:
-  # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: ResumeMint AI API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: resumes
+    description: Resume CRUD
+  - name: ai
+    description: AI generation
+  - name: payments
+    description: Razorpay payments
+  - name: admin
+    description: Admin analytics
+
 paths:
   /healthz:
     get:
       operationId: healthCheck
       tags: [health]
       summary: Health check
-      description: Returns server health status
       responses:
         "200":
           description: Healthy
@@ -24,13 +31,507 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+
+  # ─── Resumes ───────────────────────────────────────────────────
+  /resumes:
+    get:
+      operationId: listResumes
+      tags: [resumes]
+      summary: List resumes for a user
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: List of resumes
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Resume"
+    post:
+      operationId: createResume
+      tags: [resumes]
+      summary: Create a new resume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResumeInput"
+      responses:
+        "201":
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+
+  /resumes/{id}:
+    get:
+      operationId: getResume
+      tags: [resumes]
+      summary: Get resume by ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+        "404":
+          description: Not found
+    patch:
+      operationId: updateResume
+      tags: [resumes]
+      summary: Update resume
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResumeUpdate"
+      responses:
+        "200":
+          description: Updated resume
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Resume"
+    delete:
+      operationId: deleteResume
+      tags: [resumes]
+      summary: Delete resume
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: Deleted
+
+  # ─── AI ──────────────────────────────────────────────────────────
+  /ai/enhance-resume:
+    post:
+      operationId: enhanceResume
+      tags: [ai]
+      summary: AI-enhance full resume content
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnhanceResumeInput"
+      responses:
+        "200":
+          description: Enhanced resume data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnhanceResumeResult"
+
+  /ai/ats-score:
+    post:
+      operationId: getAtsScore
+      tags: [ai]
+      summary: Analyze ATS score for a resume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AtsScoreInput"
+      responses:
+        "200":
+          description: ATS score result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AtsScoreResult"
+
+  /ai/cover-letter:
+    post:
+      operationId: generateCoverLetter
+      tags: [ai]
+      summary: Generate a cover letter
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CoverLetterInput"
+      responses:
+        "200":
+          description: Generated cover letter
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CoverLetterResult"
+
+  # ─── Payments ───────────────────────────────────────────────────
+  /payments/order:
+    post:
+      operationId: createPaymentOrder
+      tags: [payments]
+      summary: Create a Razorpay order
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentOrderInput"
+      responses:
+        "200":
+          description: Razorpay order
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentOrder"
+
+  /payments/verify:
+    post:
+      operationId: verifyPayment
+      tags: [payments]
+      summary: Verify Razorpay payment signature
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PaymentVerifyInput"
+      responses:
+        "200":
+          description: Verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentVerifyResult"
+
+  /payments/status/{userId}:
+    get:
+      operationId: getUserPaymentStatus
+      tags: [payments]
+      summary: Get payment status for a user
+      parameters:
+        - in: path
+          name: userId
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Payment records
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentRecord"
+
+  # ─── Admin ───────────────────────────────────────────────────────
+  /admin/stats:
+    get:
+      operationId: getAdminStats
+      tags: [admin]
+      summary: Get platform-wide admin statistics
+      responses:
+        "200":
+          description: Admin stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdminStats"
+
+  /admin/users:
+    get:
+      operationId: listAdminUsers
+      tags: [admin]
+      summary: List all users (admin)
+      responses:
+        "200":
+          description: List of users
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/AdminUser"
+
+  /admin/payments:
+    get:
+      operationId: listAdminPayments
+      tags: [admin]
+      summary: List all payments (admin)
+      responses:
+        "200":
+          description: List of payments
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/PaymentRecord"
+
 components:
   schemas:
     HealthStatus:
       type: object
+      required: [status]
       properties:
         status:
           type: string
-      required:
-        - status
 
+    # ─── Resume ────────────────────────────────────────────────────
+    PersonalInfo:
+      type: object
+      properties:
+        fullName:    { type: string }
+        email:       { type: string }
+        phone:       { type: string }
+        location:    { type: string }
+        linkedin:    { type: ["string", "null"] }
+        github:      { type: ["string", "null"] }
+        portfolio:   { type: ["string", "null"] }
+        summary:     { type: ["string", "null"] }
+
+    Education:
+      type: object
+      properties:
+        degree:  { type: string }
+        college: { type: string }
+        year:    { type: string }
+        cgpa:    { type: ["string", "null"] }
+
+    Project:
+      type: object
+      properties:
+        name:         { type: string }
+        description:  { type: string }
+        technologies: { type: string }
+        githubLink:   { type: ["string", "null"] }
+
+    Experience:
+      type: object
+      properties:
+        company:          { type: string }
+        role:             { type: string }
+        duration:         { type: string }
+        responsibilities: { type: string }
+
+    Internship:
+      type: object
+      properties:
+        company:  { type: string }
+        role:     { type: string }
+        duration: { type: string }
+        details:  { type: ["string", "null"] }
+
+    Certification:
+      type: object
+      properties:
+        name:   { type: string }
+        issuer: { type: ["string", "null"] }
+        year:   { type: ["string", "null"] }
+
+    Achievement:
+      type: object
+      properties:
+        title:       { type: string }
+        description: { type: ["string", "null"] }
+
+    ResumeData:
+      type: object
+      properties:
+        personalInfo:   { $ref: "#/components/schemas/PersonalInfo" }
+        education:
+          type: array
+          items: { $ref: "#/components/schemas/Education" }
+        technicalSkills: { type: array, items: { type: string } }
+        softSkills:      { type: array, items: { type: string } }
+        tools:           { type: array, items: { type: string } }
+        projects:
+          type: array
+          items: { $ref: "#/components/schemas/Project" }
+        experience:
+          type: array
+          items: { $ref: "#/components/schemas/Experience" }
+        internships:
+          type: array
+          items: { $ref: "#/components/schemas/Internship" }
+        certifications:
+          type: array
+          items: { $ref: "#/components/schemas/Certification" }
+        achievements:
+          type: array
+          items: { $ref: "#/components/schemas/Achievement" }
+        targetRole:  { type: ["string", "null"] }
+        template:    { type: ["string", "null"] }
+
+    Resume:
+      type: object
+      required: [id, userId, title, createdAt, updatedAt]
+      properties:
+        id:         { type: string }
+        userId:     { type: string }
+        title:      { type: string }
+        data:       { $ref: "#/components/schemas/ResumeData" }
+        template:   { type: ["string", "null"] }
+        isPaid:     { type: boolean }
+        plan:       { type: ["string", "null"] }
+        atsScore:   { type: ["integer", "null"] }
+        createdAt:  { type: string }
+        updatedAt:  { type: string }
+
+    ResumeInput:
+      type: object
+      required: [userId, title]
+      properties:
+        userId:  { type: string }
+        title:   { type: string }
+        data:    { $ref: "#/components/schemas/ResumeData" }
+        template: { type: ["string", "null"] }
+
+    ResumeUpdate:
+      type: object
+      properties:
+        title:    { type: ["string", "null"] }
+        data:     { $ref: "#/components/schemas/ResumeData" }
+        template: { type: ["string", "null"] }
+        isPaid:   { type: ["boolean", "null"] }
+        plan:     { type: ["string", "null"] }
+        atsScore: { type: ["integer", "null"] }
+
+    # ─── AI ────────────────────────────────────────────────────────
+    EnhanceResumeInput:
+      type: object
+      required: [data, targetRole]
+      properties:
+        data:       { $ref: "#/components/schemas/ResumeData" }
+        targetRole: { type: string }
+
+    EnhanceResumeResult:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ResumeData" }
+
+    AtsScoreInput:
+      type: object
+      required: [data, targetRole]
+      properties:
+        data:       { $ref: "#/components/schemas/ResumeData" }
+        targetRole: { type: string }
+
+    AtsScoreResult:
+      type: object
+      required: [score, missingKeywords, suggestions, strengths]
+      properties:
+        score:           { type: integer }
+        missingKeywords: { type: array, items: { type: string } }
+        suggestions:     { type: array, items: { type: string } }
+        strengths:       { type: array, items: { type: string } }
+
+    CoverLetterInput:
+      type: object
+      required: [data, targetRole, companyName]
+      properties:
+        data:        { $ref: "#/components/schemas/ResumeData" }
+        targetRole:  { type: string }
+        companyName: { type: string }
+
+    CoverLetterResult:
+      type: object
+      required: [content]
+      properties:
+        content: { type: string }
+
+    # ─── Payments ──────────────────────────────────────────────────
+    PaymentOrderInput:
+      type: object
+      required: [userId, plan, resumeId]
+      properties:
+        userId:   { type: string }
+        plan:     { type: string }
+        resumeId: { type: string }
+
+    PaymentOrder:
+      type: object
+      required: [orderId, amount, currency, key]
+      properties:
+        orderId:  { type: string }
+        amount:   { type: integer }
+        currency: { type: string }
+        key:      { type: string }
+
+    PaymentVerifyInput:
+      type: object
+      required: [orderId, paymentId, signature, userId, plan, resumeId]
+      properties:
+        orderId:   { type: string }
+        paymentId: { type: string }
+        signature: { type: string }
+        userId:    { type: string }
+        plan:      { type: string }
+        resumeId:  { type: string }
+
+    PaymentVerifyResult:
+      type: object
+      required: [success]
+      properties:
+        success: { type: boolean }
+        message: { type: ["string", "null"] }
+
+    PaymentRecord:
+      type: object
+      required: [id, userId, plan, amount, status, createdAt]
+      properties:
+        id:        { type: string }
+        userId:    { type: string }
+        resumeId:  { type: ["string", "null"] }
+        plan:      { type: string }
+        amount:    { type: integer }
+        status:    { type: string }
+        orderId:   { type: ["string", "null"] }
+        paymentId: { type: ["string", "null"] }
+        createdAt: { type: string }
+
+    # ─── Admin ─────────────────────────────────────────────────────
+    AdminStats:
+      type: object
+      required: [totalUsers, totalResumes, totalRevenue, totalPayments, resumesThisMonth, revenueThisMonth]
+      properties:
+        totalUsers:       { type: integer }
+        totalResumes:     { type: integer }
+        totalRevenue:     { type: integer }
+        totalPayments:    { type: integer }
+        resumesThisMonth: { type: integer }
+        revenueThisMonth: { type: integer }
+
+    AdminUser:
+      type: object
+      required: [id, email, createdAt, resumeCount]
+      properties:
+        id:          { type: string }
+        email:       { type: string }
+        displayName: { type: ["string", "null"] }
+        createdAt:   { type: string }
+        resumeCount: { type: integer }
+        totalSpent:  { type: integer }

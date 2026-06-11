@@ -6,6 +6,9 @@
  * OpenAPI spec version: 0.1.0
  */
 
-export interface HealthStatus {
-  status: string;
+export interface Experience {
+  company?: string;
+  role?: string;
+  duration?: string;
+  responsibilities?: string;
 }

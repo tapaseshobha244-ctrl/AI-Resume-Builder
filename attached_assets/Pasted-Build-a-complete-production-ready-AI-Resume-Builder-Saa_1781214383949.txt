@@ -1,0 +1,340 @@
+Build a complete production-ready AI Resume Builder SaaS platform called "ResumeMint AI".
+
+GOAL:
+Create a premium, modern, ATS-friendly AI Resume Builder website that helps students, freshers, and professionals create professional resumes within minutes.
+
+TECH STACK:
+
+* React
+* Vite
+* TailwindCSS
+* Firebase Authentication
+* Firebase Firestore
+* OpenAI API Integration
+* Razorpay Payment Gateway
+* PDF Generation
+* Vercel Deployment Ready
+
+DESIGN REQUIREMENTS:
+
+The website must look like a modern startup SaaS product.
+
+Design Inspiration:
+
+* Linear
+* Notion
+* Stripe
+* Framer
+* Vercel
+
+UI Style:
+
+* Premium
+* Modern
+* Clean
+* Fast
+* Responsive
+* Glassmorphism effects
+* Smooth animations
+* Beautiful typography
+* Professional color palette
+* Modern gradients
+* Mobile-first design
+
+Use:
+
+* Rounded cards
+* Elegant shadows
+* Smooth hover effects
+* Interactive buttons
+* Loading animations
+* Skeleton loaders
+
+PAGES REQUIRED:
+
+1. LANDING PAGE
+
+Hero Section:
+Headline:
+"Create a Professional ATS Resume in Minutes"
+
+Subheadline:
+"AI-powered resume builder trusted by students, freshers, and professionals."
+
+Buttons:
+
+* Create Resume
+* View Templates
+
+Sections:
+
+* Features
+* How It Works
+* Resume Templates
+* ATS Benefits
+* Pricing
+* Testimonials
+* FAQ
+* Footer
+
+2. AUTHENTICATION
+
+Support:
+
+* Google Sign In
+* Email Sign Up
+* Email Login
+* Forgot Password
+
+Store users in Firebase.
+
+3. USER DASHBOARD
+
+Dashboard Features:
+
+* Welcome Section
+* Create New Resume
+* Saved Resumes
+* Edit Resume
+* Delete Resume
+* Download Resume
+* Payment Status
+
+4. RESUME BUILDER FORM
+
+Multi-Step Form
+
+Step 1:
+Personal Information
+
+* Full Name
+* Email
+* Phone
+* Location
+* LinkedIn
+* GitHub
+* Portfolio Website
+
+Step 2:
+Education
+
+* Degree
+* College
+* Year
+* CGPA
+
+Step 3:
+Skills
+
+* Technical Skills
+* Soft Skills
+* Tools
+
+Step 4:
+Projects
+
+* Project Name
+* Description
+* Technologies Used
+* GitHub Link
+
+Step 5:
+Experience
+
+* Company
+* Role
+* Duration
+* Responsibilities
+
+Step 6:
+Internships
+
+Step 7:
+Certifications
+
+Step 8:
+Achievements
+
+Step 9:
+Target Job Role
+
+Examples:
+
+* Software Engineer
+* Data Analyst
+* Frontend Developer
+* UI UX Designer
+* Marketing Executive
+
+5. AI RESUME GENERATION
+
+Integrate OpenAI.
+
+AI should:
+
+* Generate professional summary
+* Improve grammar
+* Rewrite skills professionally
+* Rewrite project descriptions
+* Rewrite experience professionally
+* Add ATS-friendly keywords
+* Optimize for target role
+* Avoid repetitive wording
+* Generate unique content every time
+
+Example:
+
+Input:
+"Python"
+
+Output:
+"Proficient in Python programming, automation, scripting, and problem-solving."
+
+Input:
+"Weather App"
+
+Output:
+"Developed a responsive weather application using APIs and modern web technologies to provide real-time weather insights."
+
+6. RESUME PREVIEW PAGE
+
+Real-time preview.
+
+Templates:
+
+* ATS Professional
+* Modern Corporate
+* Executive
+* Minimal
+* Creative
+
+Features:
+
+* Change Template
+* Change Font
+* Change Layout
+* Live Updates
+
+7. PAYMENT SYSTEM
+
+Razorpay Integration
+
+Pricing:
+
+Free:
+
+* Resume Preview
+
+Premium ₹29:
+
+* PDF Download
+
+Premium Plus ₹99:
+
+* Resume PDF
+* Cover Letter
+* ATS Analysis
+
+After successful payment:
+
+* Unlock Download
+* Store Payment Status
+
+8. PDF GENERATION
+
+Generate high-quality PDF.
+
+Requirements:
+
+* Proper formatting
+* ATS-friendly structure
+* Professional spacing
+* Multi-page support
+* Download instantly
+
+9. ATS SCORE ANALYZER
+
+Analyze resume.
+
+Provide:
+
+* ATS Score
+* Missing Keywords
+* Improvement Suggestions
+* Resume Strength Analysis
+
+Display score visually.
+
+10. COVER LETTER GENERATOR
+
+Generate cover letters automatically based on:
+
+* Resume
+* Target Role
+* Skills
+
+11. ADMIN PANEL
+
+Admin Features:
+
+* View Users
+* View Payments
+* Total Revenue
+* Total Resumes Generated
+* User Analytics
+
+12. DATABASE
+
+Store:
+
+* User Profiles
+* Resume Data
+* Payment History
+* ATS Reports
+* Cover Letters
+
+13. PERFORMANCE
+
+Requirements:
+
+* Fast Loading
+* SEO Optimized
+* Responsive
+* Secure
+* Production Ready
+
+14. SECURITY
+
+Implement:
+
+* Firebase Authentication
+* Protected Routes
+* Secure API Calls
+* Environment Variables
+* Input Validation
+
+15. EXTRA FEATURES
+
+* Dark Mode
+* Light Mode
+* Resume Templates Gallery
+* Resume Save Draft
+* Resume Edit Later
+* Mobile Responsive
+* Loading States
+* Error Handling
+* Success Notifications
+
+OUTPUT REQUIREMENT:
+
+Generate complete production-ready codebase.
+
+Create clean folder structure.
+
+Use best coding practices.
+
+No placeholder pages.
+
+All features must be connected and functional.
+
+Application should be deployable immediately after API keys are added.

@@ -5,7 +5,8 @@
  * ResumeMint AI API
  * OpenAPI spec version: 0.1.0
  */
+import type { ResumeData } from './resumeData';
 
-export interface HealthStatus {
-  status: string;
+export interface EnhanceResumeResult {
+  data: ResumeData;
 }
