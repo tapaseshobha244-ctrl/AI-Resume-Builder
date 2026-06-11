@@ -1,0 +1,2 @@
+- [Firebase Auth setup](firebase-auth.md) — client needs VITE_FIREBASE_API_KEY + VITE_FIREBASE_APP_ID; server-side Admin SDK is NOT used.
+- [Theme key reset](theme-key.md) — use `rm-theme` as localStorage key so theme preference resets cleanly for all users when changed.
