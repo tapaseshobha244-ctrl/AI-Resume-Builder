@@ -1,0 +1,214 @@
+ResumeMint AI - Final Product Upgrade
+
+The project already exists.
+
+Do NOT rebuild from scratch.
+
+Review the existing codebase and improve it professionally.
+
+AUTHENTICATION
+
+* Verify Google Login works correctly.
+* Verify Email Signup works correctly.
+* Verify Email Login works correctly.
+* Verify Logout works correctly.
+* Verify Session Persistence.
+* Redirect authenticated users to Dashboard.
+* Protect private routes.
+
+FIREBASE
+
+* Use existing Firebase configuration.
+* Store user profiles in Firestore.
+* Store generated resumes in Firestore.
+* Store timestamps.
+* Store resume history.
+
+RESUME BUILDER FLOW
+
+User Journey:
+
+Home Page
+↓
+Sign Up / Login
+↓
+Resume Builder Form
+↓
+AI Resume Generation
+↓
+Resume Preview
+↓
+PDF Download
+
+After Login:
+
+Collect:
+
+* Full Name
+* Email
+* Phone
+* Location
+* LinkedIn
+* GitHub
+* Portfolio
+* Education
+* Skills
+* Projects
+* Experience
+* Internships
+* Certifications
+* Achievements
+* Target Job Role
+
+AI RESUME GENERATION
+
+Use Gemini API.
+
+The AI should generate the entire resume professionally.
+
+The user should NOT need to write professional descriptions manually.
+
+Example:
+
+User enters:
+
+Python
+HTML
+CSS
+
+AI converts them into professional ATS-friendly content.
+
+User enters:
+
+Weather App
+
+AI generates a professional project description.
+
+Generate:
+
+* Professional Summary
+* Skills Section
+* Projects Section
+* Experience Section
+* ATS Keywords
+
+Every resume should feel unique and professionally written.
+
+RESUME PREVIEW
+
+Generate a complete resume preview.
+
+Show a real professional resume layout.
+
+Templates should not be empty cards.
+
+Templates must display actual resume previews.
+
+Create:
+
+1. ATS Professional
+2. Modern Corporate
+3. Executive
+4. Minimal
+5. Creative
+
+Each template should show a realistic resume example.
+
+TEMPLATE SYSTEM
+
+Template cards should contain:
+
+* Real Resume Preview
+* Different Layout
+* Different Typography
+* Different Styling
+
+Users should immediately understand how each template looks.
+
+PDF GENERATION
+
+Generate high-quality ATS-friendly PDFs.
+
+Requirements:
+
+* Professional spacing
+* Multi-page support
+* Clean formatting
+* Proper margins
+* Instant download
+
+DASHBOARD
+
+Show:
+
+* Create New Resume
+* Saved Resumes
+* Edit Resume
+* Delete Resume
+* Download Resume
+
+UI / UX
+
+Default Theme:
+Light Mode
+
+Also include:
+Dark Mode Toggle
+
+Design Inspiration:
+
+* Stripe
+* Linear
+* Notion
+* Framer
+
+Improve:
+
+* Typography
+* Colors
+* Spacing
+* Cards
+* Buttons
+* Animations
+* Loading States
+* Empty States
+
+RESPONSIVENESS
+
+Perfect support for:
+
+* Mobile
+* Tablet
+* Laptop
+* Desktop
+
+SECURITY
+
+* Secure Firebase Rules
+* Protected Routes
+* Input Validation
+* Error Handling
+* Secure Environment Variables
+
+PERFORMANCE
+
+* Fast loading
+* Optimized components
+* Clean architecture
+* Production-ready code
+
+FINAL TASK
+
+Before completion:
+
+* Review entire codebase.
+* Find all bugs.
+* Fix all bugs.
+* Verify Authentication.
+* Verify Firestore.
+* Verify Gemini API.
+* Verify Resume Generation.
+* Verify Resume Templates.
+* Verify PDF Download.
+
+Provide a detailed report of everything fixed and improved.

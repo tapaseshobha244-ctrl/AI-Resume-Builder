@@ -593,6 +593,299 @@ export const GenerateCoverLetterResponse = zod.object({
 
 
 /**
+ * @summary Generate categorized interview questions with model answers
+ */
+export const GenerateInterviewQuestionsBody = zod.object({
+  "data": zod.object({
+  "personalInfo": zod.object({
+  "fullName": zod.string().optional(),
+  "email": zod.string().optional(),
+  "phone": zod.string().optional(),
+  "location": zod.string().optional(),
+  "linkedin": zod.string().nullish(),
+  "github": zod.string().nullish(),
+  "portfolio": zod.string().nullish(),
+  "summary": zod.string().nullish()
+}).optional(),
+  "education": zod.array(zod.object({
+  "degree": zod.string().optional(),
+  "college": zod.string().optional(),
+  "year": zod.string().optional(),
+  "cgpa": zod.string().nullish()
+})).optional(),
+  "technicalSkills": zod.array(zod.string()).optional(),
+  "softSkills": zod.array(zod.string()).optional(),
+  "tools": zod.array(zod.string()).optional(),
+  "projects": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "description": zod.string().optional(),
+  "technologies": zod.string().optional(),
+  "githubLink": zod.string().nullish()
+})).optional(),
+  "experience": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "responsibilities": zod.string().optional()
+})).optional(),
+  "internships": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "details": zod.string().nullish()
+})).optional(),
+  "certifications": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "issuer": zod.string().nullish(),
+  "year": zod.string().nullish()
+})).optional(),
+  "achievements": zod.array(zod.object({
+  "title": zod.string().optional(),
+  "description": zod.string().nullish()
+})).optional(),
+  "targetRole": zod.string().nullish(),
+  "template": zod.string().nullish()
+}),
+  "targetRole": zod.string()
+})
+
+export const GenerateInterviewQuestionsResponse = zod.object({
+  "questions": zod.array(zod.object({
+  "question": zod.string(),
+  "category": zod.string(),
+  "answer": zod.string(),
+  "tip": zod.string().nullish()
+}))
+})
+
+
+/**
+ * @summary Generate an optimized LinkedIn profile
+ */
+export const GenerateLinkedInProfileBody = zod.object({
+  "data": zod.object({
+  "personalInfo": zod.object({
+  "fullName": zod.string().optional(),
+  "email": zod.string().optional(),
+  "phone": zod.string().optional(),
+  "location": zod.string().optional(),
+  "linkedin": zod.string().nullish(),
+  "github": zod.string().nullish(),
+  "portfolio": zod.string().nullish(),
+  "summary": zod.string().nullish()
+}).optional(),
+  "education": zod.array(zod.object({
+  "degree": zod.string().optional(),
+  "college": zod.string().optional(),
+  "year": zod.string().optional(),
+  "cgpa": zod.string().nullish()
+})).optional(),
+  "technicalSkills": zod.array(zod.string()).optional(),
+  "softSkills": zod.array(zod.string()).optional(),
+  "tools": zod.array(zod.string()).optional(),
+  "projects": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "description": zod.string().optional(),
+  "technologies": zod.string().optional(),
+  "githubLink": zod.string().nullish()
+})).optional(),
+  "experience": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "responsibilities": zod.string().optional()
+})).optional(),
+  "internships": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "details": zod.string().nullish()
+})).optional(),
+  "certifications": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "issuer": zod.string().nullish(),
+  "year": zod.string().nullish()
+})).optional(),
+  "achievements": zod.array(zod.object({
+  "title": zod.string().optional(),
+  "description": zod.string().nullish()
+})).optional(),
+  "targetRole": zod.string().nullish(),
+  "template": zod.string().nullish()
+}),
+  "targetRole": zod.string()
+})
+
+export const GenerateLinkedInProfileResponse = zod.object({
+  "headline": zod.string(),
+  "about": zod.string(),
+  "skills": zod.array(zod.string()),
+  "summary": zod.string(),
+  "score": zod.number()
+})
+
+
+/**
+ * @summary Generate project ideas for freshers and students
+ */
+export const GenerateProjectSuggestionsBody = zod.object({
+  "skills": zod.array(zod.string()),
+  "targetRole": zod.string(),
+  "branch": zod.string().nullish()
+})
+
+export const GenerateProjectSuggestionsResponse = zod.object({
+  "projects": zod.array(zod.object({
+  "name": zod.string(),
+  "description": zod.string(),
+  "features": zod.array(zod.string()).optional(),
+  "techStack": zod.array(zod.string()),
+  "difficulty": zod.string(),
+  "resumeImpact": zod.number()
+}))
+})
+
+
+/**
+ * @summary Recommend job roles based on resume
+ */
+export const GenerateJobRecommendationsBody = zod.object({
+  "data": zod.object({
+  "personalInfo": zod.object({
+  "fullName": zod.string().optional(),
+  "email": zod.string().optional(),
+  "phone": zod.string().optional(),
+  "location": zod.string().optional(),
+  "linkedin": zod.string().nullish(),
+  "github": zod.string().nullish(),
+  "portfolio": zod.string().nullish(),
+  "summary": zod.string().nullish()
+}).optional(),
+  "education": zod.array(zod.object({
+  "degree": zod.string().optional(),
+  "college": zod.string().optional(),
+  "year": zod.string().optional(),
+  "cgpa": zod.string().nullish()
+})).optional(),
+  "technicalSkills": zod.array(zod.string()).optional(),
+  "softSkills": zod.array(zod.string()).optional(),
+  "tools": zod.array(zod.string()).optional(),
+  "projects": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "description": zod.string().optional(),
+  "technologies": zod.string().optional(),
+  "githubLink": zod.string().nullish()
+})).optional(),
+  "experience": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "responsibilities": zod.string().optional()
+})).optional(),
+  "internships": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "details": zod.string().nullish()
+})).optional(),
+  "certifications": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "issuer": zod.string().nullish(),
+  "year": zod.string().nullish()
+})).optional(),
+  "achievements": zod.array(zod.object({
+  "title": zod.string().optional(),
+  "description": zod.string().nullish()
+})).optional(),
+  "targetRole": zod.string().nullish(),
+  "template": zod.string().nullish()
+})
+})
+
+export const GenerateJobRecommendationsResponse = zod.object({
+  "roles": zod.array(zod.object({
+  "title": zod.string(),
+  "matchScore": zod.number(),
+  "description": zod.string(),
+  "requiredSkills": zod.array(zod.string()),
+  "missingSkills": zod.array(zod.string()),
+  "learningPath": zod.array(zod.string()),
+  "salaryRange": zod.string().nullish()
+}))
+})
+
+
+/**
+ * @summary Diagnose resume issues and generate a health report
+ */
+export const RunResumeDoctorBody = zod.object({
+  "data": zod.object({
+  "personalInfo": zod.object({
+  "fullName": zod.string().optional(),
+  "email": zod.string().optional(),
+  "phone": zod.string().optional(),
+  "location": zod.string().optional(),
+  "linkedin": zod.string().nullish(),
+  "github": zod.string().nullish(),
+  "portfolio": zod.string().nullish(),
+  "summary": zod.string().nullish()
+}).optional(),
+  "education": zod.array(zod.object({
+  "degree": zod.string().optional(),
+  "college": zod.string().optional(),
+  "year": zod.string().optional(),
+  "cgpa": zod.string().nullish()
+})).optional(),
+  "technicalSkills": zod.array(zod.string()).optional(),
+  "softSkills": zod.array(zod.string()).optional(),
+  "tools": zod.array(zod.string()).optional(),
+  "projects": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "description": zod.string().optional(),
+  "technologies": zod.string().optional(),
+  "githubLink": zod.string().nullish()
+})).optional(),
+  "experience": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "responsibilities": zod.string().optional()
+})).optional(),
+  "internships": zod.array(zod.object({
+  "company": zod.string().optional(),
+  "role": zod.string().optional(),
+  "duration": zod.string().optional(),
+  "details": zod.string().nullish()
+})).optional(),
+  "certifications": zod.array(zod.object({
+  "name": zod.string().optional(),
+  "issuer": zod.string().nullish(),
+  "year": zod.string().nullish()
+})).optional(),
+  "achievements": zod.array(zod.object({
+  "title": zod.string().optional(),
+  "description": zod.string().nullish()
+})).optional(),
+  "targetRole": zod.string().nullish(),
+  "template": zod.string().nullish()
+}),
+  "targetRole": zod.string()
+})
+
+export const RunResumeDoctorResponse = zod.object({
+  "healthScore": zod.number(),
+  "issues": zod.array(zod.object({
+  "section": zod.string(),
+  "severity": zod.string(),
+  "problem": zod.string(),
+  "fix": zod.string()
+})),
+  "strengths": zod.array(zod.string()),
+  "overallFeedback": zod.string()
+})
+
+
+/**
  * @summary Create a Razorpay order
  */
 export const CreatePaymentOrderBody = zod.object({

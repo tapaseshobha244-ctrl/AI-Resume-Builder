@@ -15,6 +15,12 @@ import Builder from "@/pages/builder";
 import Preview from "@/pages/preview";
 import AtsScore from "@/pages/ats-score";
 import CoverLetter from "@/pages/cover-letter";
+import CareerDashboard from "@/pages/career-dashboard";
+import InterviewQuestions from "@/pages/interview-questions";
+import LinkedInProfile from "@/pages/linkedin-profile";
+import ProjectSuggestions from "@/pages/project-suggestions";
+import JobRecommendations from "@/pages/job-recommendations";
+import ResumeDoctor from "@/pages/resume-doctor";
 import Payment from "@/pages/payment";
 import Admin from "@/pages/admin";
 import NotFound from "@/pages/not-found";
@@ -39,6 +45,12 @@ function Router() {
       <Route path="/preview/:resumeId" component={Preview} />
       <Route path="/ats-score/:resumeId" component={AtsScore} />
       <Route path="/cover-letter/:resumeId" component={CoverLetter} />
+      <Route path="/career-dashboard/:resumeId" component={CareerDashboard} />
+      <Route path="/interview-questions/:resumeId" component={InterviewQuestions} />
+      <Route path="/linkedin-profile/:resumeId" component={LinkedInProfile} />
+      <Route path="/project-suggestions/:resumeId" component={ProjectSuggestions} />
+      <Route path="/job-recommendations/:resumeId" component={JobRecommendations} />
+      <Route path="/resume-doctor/:resumeId" component={ResumeDoctor} />
       <Route path="/payment" component={Payment} />
       <Route path="/admin" component={Admin} />
       <Route component={NotFound} />

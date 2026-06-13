@@ -155,6 +155,94 @@ export interface CoverLetterResult {
   content: string;
 }
 
+export interface InterviewQuestionsInput {
+  data: ResumeData;
+  targetRole: string;
+}
+
+export interface InterviewQuestion {
+  question: string;
+  category: string;
+  answer: string;
+  /** @nullable */
+  tip?: string | null;
+}
+
+export interface InterviewQuestionsResult {
+  questions: InterviewQuestion[];
+}
+
+export interface LinkedInProfileInput {
+  data: ResumeData;
+  targetRole: string;
+}
+
+export interface LinkedInProfileResult {
+  headline: string;
+  about: string;
+  skills: string[];
+  summary: string;
+  score: number;
+}
+
+export interface ProjectSuggestionsInput {
+  skills: string[];
+  targetRole: string;
+  /** @nullable */
+  branch?: string | null;
+}
+
+export interface ProjectIdea {
+  name: string;
+  description: string;
+  features?: string[];
+  techStack: string[];
+  difficulty: string;
+  resumeImpact: number;
+}
+
+export interface ProjectSuggestionsResult {
+  projects: ProjectIdea[];
+}
+
+export interface JobRecommendationsInput {
+  data: ResumeData;
+}
+
+export interface JobRole {
+  title: string;
+  matchScore: number;
+  description: string;
+  requiredSkills: string[];
+  missingSkills: string[];
+  learningPath: string[];
+  /** @nullable */
+  salaryRange?: string | null;
+}
+
+export interface JobRecommendationsResult {
+  roles: JobRole[];
+}
+
+export interface ResumeDoctorInput {
+  data: ResumeData;
+  targetRole: string;
+}
+
+export interface ResumeIssue {
+  section: string;
+  severity: string;
+  problem: string;
+  fix: string;
+}
+
+export interface ResumeDoctorResult {
+  healthScore: number;
+  issues: ResumeIssue[];
+  strengths: string[];
+  overallFeedback: string;
+}
+
 export interface PaymentOrderInput {
   userId: string;
   plan: string;

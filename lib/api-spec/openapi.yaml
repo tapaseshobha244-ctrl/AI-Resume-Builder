@@ -186,6 +186,101 @@ paths:
               schema:
                 $ref: "#/components/schemas/CoverLetterResult"
 
+  /ai/interview-questions:
+    post:
+      operationId: generateInterviewQuestions
+      tags: [ai]
+      summary: Generate categorized interview questions with model answers
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InterviewQuestionsInput"
+      responses:
+        "200":
+          description: Interview questions by category
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InterviewQuestionsResult"
+
+  /ai/linkedin-profile:
+    post:
+      operationId: generateLinkedInProfile
+      tags: [ai]
+      summary: Generate an optimized LinkedIn profile
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LinkedInProfileInput"
+      responses:
+        "200":
+          description: LinkedIn profile sections
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LinkedInProfileResult"
+
+  /ai/project-suggestions:
+    post:
+      operationId: generateProjectSuggestions
+      tags: [ai]
+      summary: Generate project ideas for freshers and students
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectSuggestionsInput"
+      responses:
+        "200":
+          description: Project ideas with details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectSuggestionsResult"
+
+  /ai/job-recommendations:
+    post:
+      operationId: generateJobRecommendations
+      tags: [ai]
+      summary: Recommend job roles based on resume
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/JobRecommendationsInput"
+      responses:
+        "200":
+          description: Recommended job roles
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/JobRecommendationsResult"
+
+  /ai/resume-doctor:
+    post:
+      operationId: runResumeDoctor
+      tags: [ai]
+      summary: Diagnose resume issues and generate a health report
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResumeDoctorInput"
+      responses:
+        "200":
+          description: Resume health report
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResumeDoctorResult"
+
   # ─── Payments ───────────────────────────────────────────────────
   /payments/order:
     post:
@@ -419,7 +514,7 @@ components:
         plan:     { type: ["string", "null"] }
         atsScore: { type: ["integer", "null"] }
 
-    # ─── AI ────────────────────────────────────────────────────────
+    # ─── AI — existing ─────────────────────────────────────────────
     EnhanceResumeInput:
       type: object
       required: [data, targetRole]
@@ -462,6 +557,130 @@ components:
       required: [content]
       properties:
         content: { type: string }
+
+    # ─── AI — new features ─────────────────────────────────────────
+    InterviewQuestionsInput:
+      type: object
+      required: [data, targetRole]
+      properties:
+        data:       { $ref: "#/components/schemas/ResumeData" }
+        targetRole: { type: string }
+
+    InterviewQuestion:
+      type: object
+      required: [question, category, answer]
+      properties:
+        question: { type: string }
+        category: { type: string }
+        answer:   { type: string }
+        tip:      { type: ["string", "null"] }
+
+    InterviewQuestionsResult:
+      type: object
+      required: [questions]
+      properties:
+        questions:
+          type: array
+          items: { $ref: "#/components/schemas/InterviewQuestion" }
+
+    LinkedInProfileInput:
+      type: object
+      required: [data, targetRole]
+      properties:
+        data:       { $ref: "#/components/schemas/ResumeData" }
+        targetRole: { type: string }
+
+    LinkedInProfileResult:
+      type: object
+      required: [headline, about, skills, summary, score]
+      properties:
+        headline: { type: string }
+        about:    { type: string }
+        skills:   { type: array, items: { type: string } }
+        summary:  { type: string }
+        score:    { type: integer }
+
+    ProjectSuggestionsInput:
+      type: object
+      required: [skills, targetRole]
+      properties:
+        skills:     { type: array, items: { type: string } }
+        targetRole: { type: string }
+        branch:     { type: ["string", "null"] }
+
+    ProjectIdea:
+      type: object
+      required: [name, description, techStack, difficulty, resumeImpact]
+      properties:
+        name:         { type: string }
+        description:  { type: string }
+        features:     { type: array, items: { type: string } }
+        techStack:    { type: array, items: { type: string } }
+        difficulty:   { type: string }
+        resumeImpact: { type: integer }
+
+    ProjectSuggestionsResult:
+      type: object
+      required: [projects]
+      properties:
+        projects:
+          type: array
+          items: { $ref: "#/components/schemas/ProjectIdea" }
+
+    JobRecommendationsInput:
+      type: object
+      required: [data]
+      properties:
+        data: { $ref: "#/components/schemas/ResumeData" }
+
+    JobRole:
+      type: object
+      required: [title, matchScore, description, requiredSkills, missingSkills, learningPath]
+      properties:
+        title:          { type: string }
+        matchScore:     { type: integer }
+        description:    { type: string }
+        requiredSkills: { type: array, items: { type: string } }
+        missingSkills:  { type: array, items: { type: string } }
+        learningPath:   { type: array, items: { type: string } }
+        salaryRange:    { type: ["string", "null"] }
+
+    JobRecommendationsResult:
+      type: object
+      required: [roles]
+      properties:
+        roles:
+          type: array
+          items: { $ref: "#/components/schemas/JobRole" }
+
+    ResumeDoctorInput:
+      type: object
+      required: [data, targetRole]
+      properties:
+        data:       { $ref: "#/components/schemas/ResumeData" }
+        targetRole: { type: string }
+
+    ResumeIssue:
+      type: object
+      required: [section, severity, problem, fix]
+      properties:
+        section:  { type: string }
+        severity: { type: string }
+        problem:  { type: string }
+        fix:      { type: string }
+
+    ResumeDoctorResult:
+      type: object
+      required: [healthScore, issues, strengths, overallFeedback]
+      properties:
+        healthScore:     { type: integer }
+        issues:
+          type: array
+          items: { $ref: "#/components/schemas/ResumeIssue" }
+        strengths:
+          type: array
+          items: { type: string }
+        overallFeedback: { type: string }
 
     # ─── Payments ──────────────────────────────────────────────────
     PaymentOrderInput:

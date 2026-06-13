@@ -16,7 +16,11 @@ import {
   AlertDialogHeader, AlertDialogTitle,
 } from "@/components/ui/alert-dialog";
 import { toast } from "sonner";
-import { Plus, FileText, Edit3, Trash2, Eye, Clock, Sparkles, LayoutTemplate, Loader2, MoreHorizontal } from "lucide-react";
+import {
+  Plus, FileText, Edit3, Trash2, Eye, Clock, Sparkles, LayoutTemplate, Loader2,
+  MoreHorizontal, Target, MessageSquare, Linkedin, Code2, Briefcase, Stethoscope,
+  TrendingUp, ChevronRight,
+} from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import { formatDistanceToNow } from "date-fns";
 
@@ -239,6 +243,32 @@ function DashboardContent() {
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </Button>
+                    </div>
+
+                    {/* Career AI Tools quick-links */}
+                    <div className="mt-3 pt-3 border-t border-border/60">
+                      <div className="flex items-center gap-1 flex-wrap">
+                        <span className="text-xs text-muted-foreground mr-1">AI Tools:</span>
+                        {[
+                          { icon: Target, href: `/ats-score/${resume.id}`, tip: "ATS Score", color: "text-emerald-500 hover:bg-emerald-500/10" },
+                          { icon: Stethoscope, href: `/resume-doctor/${resume.id}`, tip: "Resume Doctor", color: "text-rose-500 hover:bg-rose-500/10" },
+                          { icon: MessageSquare, href: `/interview-questions/${resume.id}`, tip: "Interview Prep", color: "text-blue-500 hover:bg-blue-500/10" },
+                          { icon: Linkedin, href: `/linkedin-profile/${resume.id}`, tip: "LinkedIn", color: "text-sky-500 hover:bg-sky-500/10" },
+                          { icon: Code2, href: `/project-suggestions/${resume.id}`, tip: "Projects", color: "text-violet-500 hover:bg-violet-500/10" },
+                          { icon: Briefcase, href: `/job-recommendations/${resume.id}`, tip: "Jobs", color: "text-orange-500 hover:bg-orange-500/10" },
+                        ].map(({ icon: Icon, href, tip, color }) => (
+                          <Link key={href} href={href} title={tip}>
+                            <button className={`w-7 h-7 rounded-md flex items-center justify-center transition-colors ${color}`}>
+                              <Icon className="w-3.5 h-3.5" />
+                            </button>
+                          </Link>
+                        ))}
+                        <Link href={`/career-dashboard/${resume.id}`} className="ml-auto">
+                          <button className="flex items-center gap-1 text-xs text-muted-foreground hover:text-primary transition-colors px-1">
+                            All tools <ChevronRight className="w-3 h-3" />
+                          </button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 );

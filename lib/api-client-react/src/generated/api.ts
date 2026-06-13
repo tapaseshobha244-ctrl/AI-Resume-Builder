@@ -29,13 +29,23 @@ import type {
   EnhanceResumeInput,
   EnhanceResumeResult,
   HealthStatus,
+  InterviewQuestionsInput,
+  InterviewQuestionsResult,
+  JobRecommendationsInput,
+  JobRecommendationsResult,
+  LinkedInProfileInput,
+  LinkedInProfileResult,
   ListResumesParams,
   PaymentOrder,
   PaymentOrderInput,
   PaymentRecord,
   PaymentVerifyInput,
   PaymentVerifyResult,
+  ProjectSuggestionsInput,
+  ProjectSuggestionsResult,
   Resume,
+  ResumeDoctorInput,
+  ResumeDoctorResult,
   ResumeInput,
   ResumeUpdate
 } from './api.schemas';
@@ -714,6 +724,361 @@ export const useGenerateCoverLetter = <TError = ErrorType<unknown>,
         TContext
       > => {
       return useMutation(getGenerateCoverLetterMutationOptions(options));
+    }
+
+export const getGenerateInterviewQuestionsUrl = () => {
+
+
+
+
+  return `/api/ai/interview-questions`
+}
+
+/**
+ * @summary Generate categorized interview questions with model answers
+ */
+export const generateInterviewQuestions = async (interviewQuestionsInput: InterviewQuestionsInput, options?: RequestInit): Promise<InterviewQuestionsResult> => {
+
+  return customFetch<InterviewQuestionsResult>(getGenerateInterviewQuestionsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      interviewQuestionsInput,)
+  }
+);}
+
+
+
+
+export const getGenerateInterviewQuestionsMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateInterviewQuestions>>, TError,{data: BodyType<InterviewQuestionsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateInterviewQuestions>>, TError,{data: BodyType<InterviewQuestionsInput>}, TContext> => {
+
+const mutationKey = ['generateInterviewQuestions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateInterviewQuestions>>, {data: BodyType<InterviewQuestionsInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  generateInterviewQuestions(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateInterviewQuestionsMutationResult = NonNullable<Awaited<ReturnType<typeof generateInterviewQuestions>>>
+    export type GenerateInterviewQuestionsMutationBody = BodyType<InterviewQuestionsInput>
+    export type GenerateInterviewQuestionsMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Generate categorized interview questions with model answers
+ */
+export const useGenerateInterviewQuestions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateInterviewQuestions>>, TError,{data: BodyType<InterviewQuestionsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generateInterviewQuestions>>,
+        TError,
+        {data: BodyType<InterviewQuestionsInput>},
+        TContext
+      > => {
+      return useMutation(getGenerateInterviewQuestionsMutationOptions(options));
+    }
+
+export const getGenerateLinkedInProfileUrl = () => {
+
+
+
+
+  return `/api/ai/linkedin-profile`
+}
+
+/**
+ * @summary Generate an optimized LinkedIn profile
+ */
+export const generateLinkedInProfile = async (linkedInProfileInput: LinkedInProfileInput, options?: RequestInit): Promise<LinkedInProfileResult> => {
+
+  return customFetch<LinkedInProfileResult>(getGenerateLinkedInProfileUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      linkedInProfileInput,)
+  }
+);}
+
+
+
+
+export const getGenerateLinkedInProfileMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateLinkedInProfile>>, TError,{data: BodyType<LinkedInProfileInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateLinkedInProfile>>, TError,{data: BodyType<LinkedInProfileInput>}, TContext> => {
+
+const mutationKey = ['generateLinkedInProfile'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateLinkedInProfile>>, {data: BodyType<LinkedInProfileInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  generateLinkedInProfile(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateLinkedInProfileMutationResult = NonNullable<Awaited<ReturnType<typeof generateLinkedInProfile>>>
+    export type GenerateLinkedInProfileMutationBody = BodyType<LinkedInProfileInput>
+    export type GenerateLinkedInProfileMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Generate an optimized LinkedIn profile
+ */
+export const useGenerateLinkedInProfile = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateLinkedInProfile>>, TError,{data: BodyType<LinkedInProfileInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generateLinkedInProfile>>,
+        TError,
+        {data: BodyType<LinkedInProfileInput>},
+        TContext
+      > => {
+      return useMutation(getGenerateLinkedInProfileMutationOptions(options));
+    }
+
+export const getGenerateProjectSuggestionsUrl = () => {
+
+
+
+
+  return `/api/ai/project-suggestions`
+}
+
+/**
+ * @summary Generate project ideas for freshers and students
+ */
+export const generateProjectSuggestions = async (projectSuggestionsInput: ProjectSuggestionsInput, options?: RequestInit): Promise<ProjectSuggestionsResult> => {
+
+  return customFetch<ProjectSuggestionsResult>(getGenerateProjectSuggestionsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      projectSuggestionsInput,)
+  }
+);}
+
+
+
+
+export const getGenerateProjectSuggestionsMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateProjectSuggestions>>, TError,{data: BodyType<ProjectSuggestionsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateProjectSuggestions>>, TError,{data: BodyType<ProjectSuggestionsInput>}, TContext> => {
+
+const mutationKey = ['generateProjectSuggestions'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateProjectSuggestions>>, {data: BodyType<ProjectSuggestionsInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  generateProjectSuggestions(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateProjectSuggestionsMutationResult = NonNullable<Awaited<ReturnType<typeof generateProjectSuggestions>>>
+    export type GenerateProjectSuggestionsMutationBody = BodyType<ProjectSuggestionsInput>
+    export type GenerateProjectSuggestionsMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Generate project ideas for freshers and students
+ */
+export const useGenerateProjectSuggestions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateProjectSuggestions>>, TError,{data: BodyType<ProjectSuggestionsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generateProjectSuggestions>>,
+        TError,
+        {data: BodyType<ProjectSuggestionsInput>},
+        TContext
+      > => {
+      return useMutation(getGenerateProjectSuggestionsMutationOptions(options));
+    }
+
+export const getGenerateJobRecommendationsUrl = () => {
+
+
+
+
+  return `/api/ai/job-recommendations`
+}
+
+/**
+ * @summary Recommend job roles based on resume
+ */
+export const generateJobRecommendations = async (jobRecommendationsInput: JobRecommendationsInput, options?: RequestInit): Promise<JobRecommendationsResult> => {
+
+  return customFetch<JobRecommendationsResult>(getGenerateJobRecommendationsUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      jobRecommendationsInput,)
+  }
+);}
+
+
+
+
+export const getGenerateJobRecommendationsMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateJobRecommendations>>, TError,{data: BodyType<JobRecommendationsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof generateJobRecommendations>>, TError,{data: BodyType<JobRecommendationsInput>}, TContext> => {
+
+const mutationKey = ['generateJobRecommendations'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof generateJobRecommendations>>, {data: BodyType<JobRecommendationsInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  generateJobRecommendations(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type GenerateJobRecommendationsMutationResult = NonNullable<Awaited<ReturnType<typeof generateJobRecommendations>>>
+    export type GenerateJobRecommendationsMutationBody = BodyType<JobRecommendationsInput>
+    export type GenerateJobRecommendationsMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Recommend job roles based on resume
+ */
+export const useGenerateJobRecommendations = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof generateJobRecommendations>>, TError,{data: BodyType<JobRecommendationsInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof generateJobRecommendations>>,
+        TError,
+        {data: BodyType<JobRecommendationsInput>},
+        TContext
+      > => {
+      return useMutation(getGenerateJobRecommendationsMutationOptions(options));
+    }
+
+export const getRunResumeDoctorUrl = () => {
+
+
+
+
+  return `/api/ai/resume-doctor`
+}
+
+/**
+ * @summary Diagnose resume issues and generate a health report
+ */
+export const runResumeDoctor = async (resumeDoctorInput: ResumeDoctorInput, options?: RequestInit): Promise<ResumeDoctorResult> => {
+
+  return customFetch<ResumeDoctorResult>(getRunResumeDoctorUrl(),
+  {
+    ...options,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', ...options?.headers },
+    body: JSON.stringify(
+      resumeDoctorInput,)
+  }
+);}
+
+
+
+
+export const getRunResumeDoctorMutationOptions = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof runResumeDoctor>>, TError,{data: BodyType<ResumeDoctorInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+): UseMutationOptions<Awaited<ReturnType<typeof runResumeDoctor>>, TError,{data: BodyType<ResumeDoctorInput>}, TContext> => {
+
+const mutationKey = ['runResumeDoctor'];
+const {mutation: mutationOptions, request: requestOptions} = options ?
+      options.mutation && 'mutationKey' in options.mutation && options.mutation.mutationKey ?
+      options
+      : {...options, mutation: {...options.mutation, mutationKey}}
+      : {mutation: { mutationKey, }, request: undefined};
+
+
+
+
+      const mutationFn: MutationFunction<Awaited<ReturnType<typeof runResumeDoctor>>, {data: BodyType<ResumeDoctorInput>}> = (props) => {
+          const {data} = props ?? {};
+
+          return  runResumeDoctor(data,requestOptions)
+        }
+
+
+
+
+
+
+  return  { mutationFn, ...mutationOptions }}
+
+    export type RunResumeDoctorMutationResult = NonNullable<Awaited<ReturnType<typeof runResumeDoctor>>>
+    export type RunResumeDoctorMutationBody = BodyType<ResumeDoctorInput>
+    export type RunResumeDoctorMutationError = ErrorType<unknown>
+
+    /**
+ * @summary Diagnose resume issues and generate a health report
+ */
+export const useRunResumeDoctor = <TError = ErrorType<unknown>,
+    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof runResumeDoctor>>, TError,{data: BodyType<ResumeDoctorInput>}, TContext>, request?: SecondParameter<typeof customFetch>}
+ ): UseMutationResult<
+        Awaited<ReturnType<typeof runResumeDoctor>>,
+        TError,
+        {data: BodyType<ResumeDoctorInput>},
+        TContext
+      > => {
+      return useMutation(getRunResumeDoctorMutationOptions(options));
     }
 
 export const getCreatePaymentOrderUrl = () => {
