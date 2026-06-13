@@ -8,6 +8,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { ATSProfessional } from "@/components/templates/ATSProfessional";
 import { ModernCorporate } from "@/components/templates/ModernCorporate";
 import { Minimal } from "@/components/templates/Minimal";
+import { Executive } from "@/components/templates/Executive";
+import { Creative } from "@/components/templates/Creative";
 import {
   ArrowLeft, Download, Edit3, Target, FileText,
   Loader2, LayoutTemplate, Sparkles
@@ -22,11 +24,16 @@ const TEMPLATES = [
   { id: "creative", label: "Creative" },
 ];
 
+type TemplateData = Parameters<typeof ATSProfessional>[0]["data"];
+
 function ResumeTemplate({ data, template }: { data: object; template: string }) {
+  const d = data as TemplateData;
   switch (template) {
-    case "modern-corporate": return <ModernCorporate data={data as Parameters<typeof ModernCorporate>[0]["data"]} />;
-    case "minimal": return <Minimal data={data as Parameters<typeof Minimal>[0]["data"]} />;
-    default: return <ATSProfessional data={data as Parameters<typeof ATSProfessional>[0]["data"]} />;
+    case "modern-corporate": return <ModernCorporate data={d} />;
+    case "executive": return <Executive data={d} />;
+    case "minimal": return <Minimal data={d} />;
+    case "creative": return <Creative data={d} />;
+    default: return <ATSProfessional data={d} />;
   }
 }
 
