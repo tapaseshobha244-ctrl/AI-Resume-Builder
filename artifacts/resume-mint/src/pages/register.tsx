@@ -48,6 +48,7 @@ export default function Register() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isConfigured) { toast.error(getFirebaseAuthError("auth/not-configured")); return; }
     if (!name.trim()) { toast.error("Please enter your full name"); return; }
     if (!email) { toast.error("Please enter your email address"); return; }
     if (password.length < 6) { toast.error("Password must be at least 6 characters"); return; }

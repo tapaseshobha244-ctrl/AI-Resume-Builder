@@ -44,6 +44,7 @@ export default function Login() {
 
   const handleEmail = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isConfigured) { toast.error(getFirebaseAuthError("auth/not-configured")); return; }
     if (!email || !password) return;
     try {
       setSubmitting(true);
@@ -59,6 +60,7 @@ export default function Login() {
 
   const handleForgot = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!isConfigured) { toast.error(getFirebaseAuthError("auth/not-configured")); return; }
     if (!email) { toast.error("Enter your email address first"); return; }
     try {
       setSubmitting(true);
