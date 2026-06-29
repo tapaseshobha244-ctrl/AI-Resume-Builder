@@ -28,18 +28,20 @@ export default function Login() {
   if (user) return null;
 
   const handleGoogle = async () => {
+    if (!isConfigured) { toast.error(getFirebaseAuthError("auth/not-configured")); return; }
     try {
       setSubmitting(true);
+      // signInWithRedirect navigates the page to Google — it doesn't return here.
+      // When the user comes back, onAuthStateChanged fires and navigates to /dashboard.
       await signInWithGoogle();
-      setLocation("/dashboard");
     } catch (e: unknown) {
       const code = (e as { code?: string })?.code ?? "";
-      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request") {
+      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request" && code !== "auth/redirect-cancelled-by-user") {
         toast.error(getFirebaseAuthError(code));
       }
-    } finally {
       setSubmitting(false);
     }
+    // Don't call setSubmitting(false) on success — page is navigating away
   };
 
   const handleEmail = async (e: React.FormEvent) => {

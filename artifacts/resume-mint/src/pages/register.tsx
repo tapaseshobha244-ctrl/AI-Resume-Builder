@@ -32,16 +32,15 @@ export default function Register() {
   if (user) return null;
 
   const handleGoogle = async () => {
+    if (!isConfigured) { toast.error(getFirebaseAuthError("auth/not-configured")); return; }
     try {
       setSubmitting(true);
       await signInWithGoogle();
-      setLocation("/dashboard");
     } catch (e: unknown) {
       const code = (e as { code?: string })?.code ?? "";
-      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request") {
+      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request" && code !== "auth/redirect-cancelled-by-user") {
         toast.error(getFirebaseAuthError(code));
       }
-    } finally {
       setSubmitting(false);
     }
   };
