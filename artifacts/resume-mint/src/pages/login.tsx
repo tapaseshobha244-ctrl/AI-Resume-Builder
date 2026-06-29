@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "wouter";
-import { useAuthContext, getFirebaseAuthError } from "@/contexts/AuthContext";
+import { useAuthContext, getFirebaseAuthError, isInIframe } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Eye, EyeOff, Loader2, AlertCircle } from "lucide-react";
+import { Eye, EyeOff, Loader2, AlertCircle, ExternalLink } from "lucide-react";
 import { SiGoogle } from "react-icons/si";
 import { toast } from "sonner";
 
@@ -17,6 +17,7 @@ export default function Login() {
   const [showPw, setShowPw] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [forgotMode, setForgotMode] = useState(false);
+  const [inIframe] = useState(() => isInIframe());
 
   useEffect(() => {
     if (!loading && user) {
@@ -31,17 +32,20 @@ export default function Login() {
     if (!isConfigured) { toast.error(getFirebaseAuthError("auth/not-configured")); return; }
     try {
       setSubmitting(true);
-      // signInWithRedirect navigates the page to Google — it doesn't return here.
-      // When the user comes back, onAuthStateChanged fires and navigates to /dashboard.
       await signInWithGoogle();
+      // If popup succeeded, navigate to dashboard
+      setLocation("/dashboard");
     } catch (e: unknown) {
       const code = (e as { code?: string })?.code ?? "";
-      if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request" && code !== "auth/redirect-cancelled-by-user") {
+      if (code === "auth/iframe-detected") {
+        // Open the app in a new tab where Google auth works
+        window.open(window.location.href, "_blank");
+      } else if (code !== "auth/popup-closed-by-user" && code !== "auth/cancelled-popup-request" && code !== "auth/redirect-cancelled-by-user") {
         toast.error(getFirebaseAuthError(code));
       }
+    } finally {
       setSubmitting(false);
     }
-    // Don't call setSubmitting(false) on success — page is navigating away
   };
 
   const handleEmail = async (e: React.FormEvent) => {
@@ -97,7 +101,25 @@ export default function Login() {
         {!isConfigured && (
           <div className="flex items-start gap-2 rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950/20 dark:border-amber-800 p-3 mb-4 text-sm text-amber-800 dark:text-amber-200">
             <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
-            <span>Firebase is not configured. Add <code className="font-mono text-xs bg-amber-100 dark:bg-amber-900 px-1 rounded">VITE_FIREBASE_API_KEY</code> and <code className="font-mono text-xs bg-amber-100 dark:bg-amber-900 px-1 rounded">VITE_FIREBASE_APP_ID</code> to enable auth.</span>
+            <span>Firebase is not configured. Add <code className="font-mono text-xs bg-amber-100 dark:bg-amber-900 px-1 rounded">VITE_FIREBASE_API_KEY</code> and <code className="font-mono text-xs bg-amber-100 dark:bg-amber-900 px-1 rounded">VITE_FIREBASE_APP_ID</code> to enable sign-in.</span>
+          </div>
+        )}
+
+        {/* Iframe notice — Google auth needs a real tab */}
+        {isConfigured && inIframe && !forgotMode && (
+          <div className="flex items-start gap-2 rounded-lg border border-blue-200 bg-blue-50 dark:bg-blue-950/20 dark:border-blue-800 p-3 mb-4 text-sm text-blue-800 dark:text-blue-200">
+            <ExternalLink className="w-4 h-4 mt-0.5 shrink-0" />
+            <span>
+              <strong>Google sign-in</strong> works in a real browser tab.{" "}
+              <button
+                type="button"
+                onClick={() => window.open(window.location.href, "_blank")}
+                className="underline font-medium hover:no-underline"
+              >
+                Open in new tab
+              </button>{" "}
+              to use it. Email sign-in works here directly.
+            </span>
           </div>
         )}
 
@@ -125,7 +147,7 @@ export default function Login() {
                 ) : (
                   <SiGoogle className="w-3.5 h-3.5" />
                 )}
-                Continue with Google
+                {inIframe ? "Open new tab for Google" : "Continue with Google"}
               </Button>
               <div className="flex items-center gap-3 my-5">
                 <Separator className="flex-1" />
